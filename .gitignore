@@ -1,0 +1,5 @@
+.vagrant
+.idea
+.settings
+heroku_auto_login.exp
+exec-once/install-base.sh

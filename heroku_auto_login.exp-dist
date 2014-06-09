@@ -1,0 +1,27 @@
+#!/usr/bin/expect -f
+
+set HEROKU_EMAIL "your@email.com"
+
+#you must escape any $ symbols by replacing all $ with \$
+set HEROKU_PASS "yourpassword"
+
+set force_conservative 0  
+			  
+if {$force_conservative} {
+	set send_slow {1 .1}
+	proc send {ignore arg} {
+		sleep .1
+		exp_send -s -- $arg
+	}
+}
+
+set timeout -1
+spawn heroku login
+match_max 100000
+expect -exact "Enter your Heroku credentials.\r
+Email: "
+send -- "${HEROKU_EMAIL}\r"
+expect -exact "${HEROKU_EMAIL}\r
+Password (typing will be hidden): "
+send -- "${HEROKU_PASS}\r"
+expect eof
